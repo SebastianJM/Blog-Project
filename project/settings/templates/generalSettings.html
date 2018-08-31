@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}General Settings{% endblock %}
+{% block content %}
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href={{ url_for('settings.general') }}>General</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href={{ url_for('settings.profile') }}>Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href={{ url_for('settings.account') }}>Account</a>
+            </li>
+        </ul>
+        <div class="border" style="padding: 20px; background: white;">
+            <h2>General Settings</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label for="blog_name">Blog Name</label>
+                    <input name="blog_name" type="text" class="form-control" value="{{ general_settings.blog_name }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="footer">Footer</label>
+                    <input name="footer" type="text" class="form-control" value="{{ general_settings.footer }}"/>
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Save Changes</button>
+                </div>
+            </form>
+        </div>
+{% endblock %}
+
+<!-- PROFILE | SYSTEM | ACCOUNT -->

@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Account Settings{% endblock %}
+{% block content %}
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href={{ url_for('settings.general') }}>General</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href={{ url_for('settings.profile') }}>Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href={{ url_for('settings.account') }}>Account</a>
+            </li>
+        </ul>
+        <div class="border" style="padding: 20px; background: white;">
+            <h2>General Settings</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input name="username" type="text" class="form-control" value="{{ account_settings.username }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input name="password" type="password" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="repeat_password">Repeat Password</label>
+                    <input name="repeat_password" type="password" class="form-control"/>
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Save Changes</button>
+                </div>
+            </form>
+        </div>
+{% endblock %}
+
+<!-- PROFILE | SYSTEM | ACCOUNT -->

@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block title %}Create a new entry{% endblock %}
+{% block content %}
+<div class="border" style="background-color: white; padding: 20px;">
+    <h2>Send a message</h2>
+    <p>Send me a message. I will be happy to reply as soon as possible!</p>
+    <form method="post" class="needs-validation" novalidate>
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <input name="subject" type="text" class="form-control"  value="{{ request.form.subject }}" required>
+            <div class="invalid-feedback">
+                Please, provide a valid subject.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input name="email" type="email" class="form-control"  value="{{ request.form.email }}" required>
+            <div class="invalid-feedback">
+                Please, provide a valid email.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea name="message" type="text" class="form-control" rows="10" maxlength="1500" required>{{ request.form.message }}</textarea>
+            <div class="invalid-feedback">
+                Please, provide a valid message.
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Send Message</button>
+        </div>
+    </form>
+</div>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock %}

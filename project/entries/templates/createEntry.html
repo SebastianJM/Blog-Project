@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% block title %}Create a new entry{% endblock %}
+{% block content %}
+<div class="border" style="background-color: white; padding: 20px;">
+    <h2>Create a new post</h2>
+    <form method="post" class="needs-validation" novalidate>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input name="title" type="text" class="form-control"  value="{{ request.form.title }}" required>
+            <div class="invalid-feedback">
+                Please, provide a valid title.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cover_image_url">Image URL (For example: https://i.imgur.com/VmZfCx5.jpg)</label>
+            <input name="cover_image_url" type="text" class="form-control"  value="{{ request.form.cover_image_url }}">
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <input name="content" type="hidden">
+            <div id="snow-wrapper">
+                <div id="snow-container" style="height: 500px;">
+                   
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Submit Post</button>
+        </div>
+    </form>
+</div>
+<!-- Quill editor -->
+<script>
+    var divName = '#snow-container'
+    var htmlToRender = "{{ request.form.content }}"
+    var decoded = $("<p/>").html(htmlToRender).text(); 
+    $(divName).html(decoded)
+    var quill = new Quill('#snow-container', {
+        bounds: '#snow-container',
+        modules: {
+            syntax: true,
+            toolbar: [
+                  [ 'bold', 'italic', 'underline', 'strike' ],
+                  [{ 'color': [] }, { 'background': [] }],
+                  [{ 'script': 'super' }, { 'script': 'sub' }],
+                  [{ 'header': '1' }, { 'header': '2' }],
+                  [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }, { 'align': [] }],
+                  [ 'link', 'image', 'video', 'formula' ],
+                  [ 'clean' ]
+                ],
+        },
+        theme: 'snow'
+    });
+     
+    var form = document.querySelector('form');
+    form.onsubmit = function() {
+        var content = document.querySelector('input[name=content]');
+        content.value = quill.root.innerHTML;
+    };
+    
+</script>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock %}

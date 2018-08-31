@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <div class="container" >
+        <div class="border row justify-content-md-center" style="background: white; padding: 30px;">
+            <div class="col-md-4">
+            <h2>Login</h2>
+            <p>Just for testing purpose, the username is "{{ login_credentials.username }}" and the password "{{ login_credentials.password }}".</p>
+            <form method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" placeholder="Username" name="username" value="{{ request.form['username'] }}" style="min-width: 200px;"/>
+                </div>
+                <div class="form-group has-danger">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" placeholder="Password" name="password" value="{{ request.form['password'] }}" style="min-width: 200px;"/>
+                </div>
+                <div>
+                    <button class="btn btn-primary btn-block" type="submit" style="min-width: 200px;">Login</button>
+                </div>
+            </form>
+            {% if result %}
+            <div>{{ result }}</div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

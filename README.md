@@ -1,1 +1,1 @@
-Blog Project
+blog

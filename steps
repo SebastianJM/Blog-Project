@@ -1,0 +1,16 @@
+1. Install python: sudo apt-get install python3.6
+2. Create blog folder
+3. Move to blog folder and install virtual environment with: sudo apt-get install python3.6-venv
+4. Create venv environment: python3.6 -m venv venv
+5. Install flask: sudo pip install flask
+6. Install Pymongo dependencies: sudo apt-get install build-essential python-dev
+7. Install MongoDb: sudo apt-get install -y mongodb-org
+8. Install pymongo: sudo python3.6 -m pip install pymongo
+9. Initialize mongo service: mongod
+
+To run the application:
+1. Initialize the MongoDB service in a console with the command: mongod
+3. In another console, inside the blog folder, activate the venv environment: source venv/bin/activate
+3. Run the flask application: python app.py
+4. Enter your localhost from the browser!
+

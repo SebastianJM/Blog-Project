@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}List of messages{% endblock %}
+{% block content %}
+    <div class="border" style="background-color: white; padding: 20px;">
+        <h2>{{ message.subject }}</h2>
+        <div>
+            From: <b>{{ message.email }}</b>
+        </div>
+        <div style="margin-top: 20px;">
+            {{ message.message }}
+        </div>
+    </div>    
+{% endblock %}

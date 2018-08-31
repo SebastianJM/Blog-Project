@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Search result{% endblock %}
+{% block content %}
+    <div class="border" style="background-color: white; padding: 20px;">
+        <h2><b>Search results for</b> {{ query }} </h2>
+        {% if total == 1 %}
+            <h4><b>{{ total }}</b> entry</h4>
+        {% else %}
+            <h4><b>{{ total }}</b> entries</h4>
+         {% endif %}   
+        {% for entry in entries %}
+        <div class="border" style="margin-top: 20px; padding: 15px; height: 200px; max-height: 300px; overflow: hidden;">
+            <div class="row">
+                <div class="col">
+                    <a href={{ url_for('entries.showEntry', entryLink = entry.link) }} style="font-size:110%;">{{ entry.title }}</a>
+                </div>
+                <div class="col text-right">
+                    <p style="font-size:100%;"><b>{{ entry.date_creation.strftime('%Y-%m-%d') }}</b></p>
+                </div>
+            </div>
+            <div id="snow-container{{ entry._id }}">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        $(document).ready(function() {
+            var entriesJSON = {{ data|safe }};
+            entriesJSON.forEach(function(element) {
+                var divName = '#snow-container' + element._id["$oid"]
+                $(divName).html(element.content)
+            });
+            $("head").append($("<style>p {margin: 0; padding: 0;} .ql-align-left{text-align: left;} .ql-align-center{text-align: center;} .ql-align-right{text-align: right;} .ql-align-justify{text-align: justify;} </style>"));
+        });
+        
+    </script>
+{% endblock %}

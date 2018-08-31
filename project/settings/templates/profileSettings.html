@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block title %}Profile Settings{% endblock %}
+{% block content %}
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href={{ url_for('settings.general') }}>General</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href={{ url_for('settings.profile') }}>Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href={{ url_for('settings.account') }}>Account</a>
+        </li>
+    </ul>
+    <div class="border" style="padding: 20px; background: white;">
+        <h2>Profile Settings</h2>
+        <form method="post">
+            <div class="form-group">
+                <label for="author_name">Author Name</label>
+                <input name="author_name" type="text" class="form-control" value="{{ profile_settings.author_name }}"/>
+            </div>
+            <div class="form-group">
+                <label for="profile_picture">Profile Picture</label>
+                <input name="profile_picture" type="text" class="form-control" value="{{ profile_settings.profile_picture }}"/>
+            </div>
+            <div class="form-group">
+                <label for="brief_description">Brief Description</label>
+                <textarea name="brief_description" type="text" class="form-control" rows="5" maxlength="1000" required>{{ profile_settings.brief_description }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="about">About</label>
+                <input name="about" type="hidden">
+                <div id="snow-wrapper">
+                    <div id="snow-container" style="height: 500px;">
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <i class="fab fa-facebook"></i>&nbsp<label for="facebook">Facebook</label>
+                <input name="facebook" type="text" class="form-control" value="{{ profile_settings.facebook if profile_settings.facebook else '' }}" placeholder="For example: https://www.facebook.com/SebasJoseM"/>
+            </div>
+            <div class="form-group">
+                <i class="fab fa-twitter"></i>&nbsp<label for="twitter">Twitter</label>
+                <input name="twitter" type="text" class="form-control" value="{{ profile_settings.twitter if profile_settings.twitter else '' }}" placeholder="For example: https://twitter.com/madeon"/>
+            </div>
+            <div class="form-group">
+                <i class="fab fa-instagram"></i>&nbsp<label for="instagram">Instagram</label>
+                <input name="instagram" type="text" class="form-control" value="{{ profile_settings.instagram if profile_settings.instagram else '' }}" placeholder="For example: https://www.instagram.com/sebasjosem"/>
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+    <script>
+    var divName = '#snow-container'
+    var htmlToRender = "{{ profile_settings.about }}"
+    var decoded = $("<p/>").html(htmlToRender).text(); 
+    $(divName).html(decoded)
+    var quill = new Quill('#snow-container', {
+        bounds: '#snow-container',
+        modules: {
+            syntax: true,
+            toolbar: [
+                  [ 'bold', 'italic', 'underline', 'strike' ],
+                  [{ 'color': [] }, { 'background': [] }],
+                  [{ 'script': 'super' }, { 'script': 'sub' }],
+                  [{ 'header': '1' }, { 'header': '2' }],
+                  [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }, { 'align': [] }],
+                  [ 'link', 'image', 'video', 'formula' ],
+                  [ 'clean' ]
+                ],
+        },
+        theme: 'snow'
+    });
+     
+    var form = document.querySelector('form');
+    form.onsubmit = function() {
+        var content = document.querySelector('input[name=about]');
+        content.value = quill.root.innerHTML;
+    };
+    </script>
+{% endblock %}

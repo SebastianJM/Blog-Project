@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+    <div class="border" style="padding: 20px; background: white;">
+        <h2>About</h2>
+        <div id="snow-container"  style="margin:20px;">
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            var aboutJSON = {{ aboutjson|safe }};
+            var divName = '#snow-container'
+            console.log(aboutJSON)
+            $(divName).html(aboutJSON)
+            $("head").append($("<style>p {margin: 0; padding: 0;} .ql-align-left{text-align: left;} .ql-align-center{text-align: center;} .ql-align-right{text-align: right;} .ql-align-justify{text-align: justify;} </style>"));
+        });
+    </script>
+{% endblock %}

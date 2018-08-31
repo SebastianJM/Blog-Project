@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}List of messages{% endblock %}
+{% block content %}
+    <div class="border" style="background-color: white; padding: 20px;">
+        <div class="row">
+            <div class="col-md-8 text-left">
+                <h2>Personal messages</h2>
+            </div>
+            <div class="col-md-4 text-left" >
+                <form action={{ url_for('messages.search') }} method="post">
+                    <input name="query" type="text" class="form-control" placeholder="Search..."/>
+                </form>
+            </div>
+        </div>
+        
+        {% if total == 0 %}
+            <h4>There are no messages</h4>
+        {% else %}
+            {% for message in messages %}
+            {% if message.read == True %}
+            <div class="border" style="margin-top: 20px; padding: 15px;">
+            {% else %}
+            <div style="margin-top: 20px; padding: 15px;  border-style: solid; border-color: rgb(0, 153, 255);">
+            {% endif %}  
+                <div class="row">
+                    <div class="col">
+                        {% if message.read == True %}
+                        <i class="far fa-envelope-open"></i>
+                        {% else %}
+                        <i class="far fa-envelope"></i>
+                        {% endif %}  
+                        <a href={{ url_for('messages.showMessage', messageLink = message._id) }}> &nbsp {{ message.subject }}</a>
+                    </div>
+                    <div class="col text-right">
+                        <p style="font-size: 100%;"><b>{{ message.date_creation.strftime('%Y-%m-%d') }}</b></p>
+                    </div>
+                </div>
+                <div>
+                    From: <b>{{ message.email }}</b>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}   
+    </div>    
+{% endblock %}

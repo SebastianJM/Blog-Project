@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"> 
+    <head>
+        {% block head %}
+        <meta charset="utf-8" />
+        <!-- Highlight css for code recognition -->
+        <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+        <!-- Quilljs styles -->
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+        
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Highlight library -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <!-- Quill library -->
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        
+        <style>
+            .entry-card-modern {
+                display: inline-block;
+                vertical-align: top;
+                width: 300px;
+                background-color: #fff;
+                margin: 10px 0 7px 10px;
+            }
+            .entry-card-modern-content {
+                height: 400px; 
+                max-height: 400px; 
+                overflow: hidden; 
+                padding: 0px; 
+                border-style: solid;
+                border-color: #ced0d2;
+                border-width: 1px 1px 0px 1px;
+            }
+            .button-card-modern {
+                background-color: #0099ff; 
+                border: 1px solid #0099ff;
+                border-radius: 0px 0px 20px 20px;
+                height: 50px;
+                color: white; 
+                font-size:120%; 
+                width: 100%;
+                display: table;
+                text-align: center;
+            }
+
+        </style>
+        
+        <title>{% block title %}{% endblock %} - My Webpage</title>
+        {% endblock %}
+    </head>
+    <body style="background: rgb(243, 245, 245);">
+        <div class="container-fluid" style="background: black; color: white;">
+            <div class="row justify-content-md-center" style="padding-top: 20px;">
+                <div class="col-sm text-center">
+                </div>
+                <a style="display: block; text-decoration: none;" href={{ url_for('index') }}>
+                    <div class="col-sm text-center" style="font-size: 25px;">
+                        {{ session.BLOG_NAME }}
+                    </div>
+                </a>
+                <div class="col-sm text-right" >
+                    <div style="padding-right: 50px;">
+                        {% if session['logged_in'] %}
+                        <a href={{ url_for('messages.listMessages') }}>Messages</a>
+                        <span> - </span>
+                        <a href={{ url_for('settings.general') }}>Settings</a>
+                        <span> - </span>
+                        <a href={{ url_for('logout') }}>Logout</a>
+                        {% else %}
+                        <a href={{ url_for('login') }}>Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center" style="padding-top: 15px; padding-bottom: 20px;">
+                <div class="col col-lg-2 text-center" style="background-color: rgb(56, 56, 56);">
+                    <a href={{ url_for('entries.listEntries') }} style="text-decoration: none;">
+                        <div>
+                            ENTRIES
+                        </div>
+                    </a>
+                </div>
+                &nbsp
+                <div class="col col-lg-2 text-center" style="background-color: rgb(56, 56, 56);">
+                    <a href={{ url_for('about') }} style="text-decoration: none;" >
+                        <div>
+                            ABOUT
+                        </div>
+                    </a>
+                </div>
+                &nbsp
+                <div class="col col-lg-2 text-center" style="background-color: rgb(56, 56, 56);">
+                    <a href={{ url_for('messages.create') }} style="text-decoration: none;">
+                        <div>
+                            CONTACT
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container-fluid" style="min-height:90vh;">
+            <div class="row"  style="padding-left: 13%; padding-right: 13%;"> 
+                <div class="col-md-9">
+                    <div class="separator" style="height: 40px;"></div>
+                    <div style="padding-right: 20px;">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                            {% if category == "error" %}
+                            <div class="alert alert-danger" role="alert">
+                            {% else %}
+                            <div class="alert alert-success" role="alert">
+                            {% endif %}
+                            {{ message }}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        {% block content %}
+                        {% endblock %}
+                        
+                    </div>
+                </div>
+                <div class="col-md-3" style="padding: 0px; min-width: 200px;">
+                    <div class="separator" style="height: 40px;"></div>
+                    <div class="border" style="background-color: rgb(72, 70, 77); padding: 15px; ">
+                        <form action={{ url_for('entries.search') }} method="post">
+                            <div class="form-group">
+                                <input name="query" type="text" class="form-control" maxlength="50" placeholder="Search..."/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="separator" style="height: 20px;"></div>
+                    <div class="border" style="background-color: rgb(72, 70, 77); padding: 20px;">
+                        <div style="font-size: 23px; text-align: center; color: white;">
+                            <b>{{ session['AUTHOR_NAME'] }}</b>
+                        </div>
+                        <div class="separator" style="height: 20px;"></div>
+                        <div style="font-size: 20px; align: center;">
+                            <img src={{ session['PROFILE_PICTURE'] }} style="width: 180px; height:200px; display: block; margin: 0 auto; border: solid; border-color:white;">
+                        </div>
+                        <div class="separator" style="height: 20px;"></div>
+                        <div style="font-size: 15px; text-align: justify; color: white;">
+                            {{ session['BRIEF_DESCRIPTION'] }}
+                        </div>
+                        {% if session['SOCIAL_NETWORKS'] and session['SOCIAL_NETWORKS']|length >0 %}
+                        <div style="margin-top: 20px; font-size: 20px; text-align: center; color: white; ">
+                            <b>SOCIAL NETWORKS:</b>
+                            <div style="margin-top: 10px;">
+                            {% if session['SOCIAL_NETWORKS']['FACEBOOK'] %}
+                                <a href={{ session['SOCIAL_NETWORKS']['FACEBOOK'] }} target="_blank"><i class="fab fa-facebook fa-2x"></i></a> &nbsp
+                            {% endif %}
+                            {% if session['SOCIAL_NETWORKS']['TWITTER'] %}
+                                <a href={{ session['SOCIAL_NETWORKS']['TWITTER'] }} target="_blank"><i class="fab fa-twitter fa-2x"></i></a> &nbsp
+                            {% endif %}
+                            {% if session['SOCIAL_NETWORKS']['INSTAGRAM'] %}
+                                <a href={{ session['SOCIAL_NETWORKS']['INSTAGRAM'] }} target="_blank"><i class="fab fa-instagram fa-2x"></i></a> &nbsp
+                            {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div style=" background-color: black; color: white; padding: 20px; text-align:center;">
+                {{ session['FOOTER'] }}
+            </div>
+        </footer>
+    </body>
+    
+</html>

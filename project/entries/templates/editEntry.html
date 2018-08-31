@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block title %}Create a new entry{% endblock %}
+{% block content %}
+<div class="border" style="background-color: white; padding: 20px;">
+    <h2>Edit</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input name="title" type="text" class="form-control"  value="{{ entry.title }}" />
+        </div>
+        <div class="form-group">
+            <label for="cover_image_url">Image URL (For example: https://i.imgur.com/VmZfCx5.jpg)</label>
+            <input name="cover_image_url" type="text" class="form-control"  value="{{ entry.cover_image_url }}" />
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <input name="content" type="hidden">
+            <div id="snow-wrapper">
+                <div id="snow-container" style="height: 500px;">
+                   
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Update Post</button>
+        </div>
+    </form>
+</div>
+<!-- Quill editor -->
+<script>
+    var divName = '#snow-container'
+    var htmlToRender = "{{ entry.content }}"
+    var decoded = $('<textarea />').html(htmlToRender).text();
+    $(divName).html(decoded)
+    var quill = new Quill('#snow-container', {
+        bounds: '#snow-container',
+        modules: {
+            syntax: true,
+            toolbar: [
+                  [ 'bold', 'italic', 'underline', 'strike' ],
+                  [{ 'color': [] }, { 'background': [] }],
+                  [{ 'script': 'super' }, { 'script': 'sub' }],
+                  [{ 'header': '1' }, { 'header': '2' }],
+                  [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }, { 'align': [] }],
+                  [ 'link', 'image', 'video', 'formula' ],
+                  [ 'clean' ]
+                ],
+        },
+        theme: 'snow'
+    });
+     
+    var form = document.querySelector('form');
+    form.onsubmit = function() {
+        var content = document.querySelector('input[name=content]');
+        content.value = quill.root.innerHTML;
+    };
+    
+</script>
+{% endblock %}
