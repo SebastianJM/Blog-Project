@@ -37,22 +37,22 @@ $ sudo python3 -m pip install pymongo
 
 After clonning the project, move to the *blog* folder and initialize the virtual environment
 ```
-python3 -m venv venv
+$ python3 -m venv venv
 ```
 
 ## Running
 
-Initialize the MongoDB service
+Initialize the MongoDB service.
 ```
-mongod
+$ mongod
 ```
-In another console, activate the virtual environment
+In another console, activate the virtual environment.
 ```
-source venv/bin/activate
+$ source venv/bin/activate
 ```
-Run the Flask application
+Run the Flask application.
 ```
-python app.py
+$ python app.py
 ```
 Now the application is running in your localhost. Happy browsing!
 
